@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     //Log.i("Visage", "face distance : " +  d.getDistance()+faces.valueAt(i).getId());
                     //Log.i("Visage", "Nombre de visage(s) détecté(s) : " + faces.size());
                     faces = detections.getDetectedItems();
-                    ProxZone p = new ProxZone(0.5D, 1.0D, 4.0D, 50.0D);
+                    ProxZone p = new ProxZone(0.5D, 1.0D, 1.5D, 2.0D);
                     Dilmo dilmo = new Dilmo(p);
                     alarme = MediaPlayer.create(getApplicationContext(), R.raw.alarme1);
                     alarme.setLooping(true);
