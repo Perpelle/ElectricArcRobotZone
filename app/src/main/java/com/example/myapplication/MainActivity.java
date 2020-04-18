@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                                dilmo.setProxemicDistance(dFinal.getDistance());
                                String a = dilmo.getProxemicZone();
 
-                              Log.i("FaceID", "Zone : "+ a + "/");
+                              Log.i("ManyFaces", "Zone : "+ a + "/");
 
                             }else{
                                 Distance d= new Distance();
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                 dilmo.setProxemicDI(id, d.getDistance());
                                 dilmo.getProxemicDI(id);
                                 changerVolume(dilmo.getProxemicDI(id));
-                                Log.i("FaceId", "Zone : "+ id + "/"+ dilmo.getProxemicDI(id));
+                                Log.i("OneFace", "Zone : "+ id + "/"+ dilmo.getProxemicDI(id));
                             }
                         }
                     }
