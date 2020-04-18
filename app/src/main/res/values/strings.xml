@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string-array name="statut">
+        <item>Etudiant</item>
+        <item>Professionnel</item>
+        <item>Partenaire</item>
+    </string-array>
+
+</resources>
