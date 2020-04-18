@@ -207,13 +207,10 @@ public class MainActivity extends AppCompatActivity {
                             }else{
                                 Distance d= new Distance();
                                 d.setfaceHeight(faces.valueAt(i).getHeight());
-                                String id =String.valueOf(faces.valueAt(i).getId());
-                                dilmo.setProxemicDI(id, d.getDistance());
-                                dilmo.getProxemicDI(id);
-                                changerVolume(dilmo.getProxemicDI(id));
+                               dilmo.setProxemicDistance(d.getDistance());
                                 String a = dilmo.getProxemicZone();
 
-                                Log.i("OneFace", "Zone : "+ id + "/"+ dilmo.getProxemicDI(id));
+                                Log.i("OneFace", "Zone : "+ a + "/");
 
                                 if (MonitoringActivity.spinnerValue.equals("Partenaire")){
                                     if (a.equals("intimiZone")) {
