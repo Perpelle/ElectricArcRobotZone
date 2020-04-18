@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     SurfaceView cameraView;
     final int RequestCameraPermissionId = 1001;
     SparseArray<Face> faces;
+    MediaPlayer alarme;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
                     faces = detections.getDetectedItems();
                     ProxZone p = new ProxZone(0.5D, 1.0D, 4.0D, 50.0D);
                     Dilmo dilmo = new Dilmo(p);
+                    alarme = MediaPlayer.create(getApplicationContext(), R.raw.alarme1);
+                    alarme.setLooping(true);
+                    alarme.seekTo(0);
+                    String infoPro = "Arc Electric professionnel";
+                    String infoPar = "Arc Electric partenaire";
+                    String infoEtu = "Arc Electric etudiant";
 
                      if (faces.size() != 0) {
                         for (int i = 0; i < faces.size(); i++) {
@@ -121,6 +129,81 @@ public class MainActivity extends AppCompatActivity {
 
                               Log.i("ManyFaces", "Zone : "+ a + "/");
 
+                               if (MonitoringActivity.spinnerValue.equals("Partenaire")){
+                                   if (a.equals("intimiZone")) {
+                                       alarme.setVolume(3f,3f);
+                                       alarme.start();
+
+                                   } else if (a.equals("personalZone")) {
+                                       //Alarme sur le telephone
+                                       alarme.setVolume(0.5f,0.5f);
+                                       alarme.start();
+
+                                   } else if (a.equals("socialZone")) {
+                                       //Afficher certaines informations
+                                       if(alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoPar);
+
+                                   } else if (a.equals("publicZone")) {
+                                       //Afficher certaines informations
+                                       if (alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoPar);
+                                   }
+
+                               }else if (MonitoringActivity.spinnerValue.equals("Professionnel")){
+                                   if (a.equals("intimiZone")) {
+                                       alarme.setVolume(3f,3f);
+                                       alarme.start();
+
+                                   } else if (a.equals("personalZone")) {
+                                       //Alarme sur le telephone
+                                       alarme.setVolume(0.5f,0.5f);
+                                       alarme.start();
+
+                                   } else if (a.equals("socialZone")) {
+                                       //Afficher certaines informations
+                                       if(alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoPro);
+
+                                   } else if (a.equals("publicZone")) {
+                                       //Afficher certaines informations
+                                       if (alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoPro);
+                                   }
+                               }else if (MonitoringActivity.spinnerValue.equals("Etudiant")){
+                                   if (a.equals("intimiZone")) {
+                                       alarme.setVolume(3f,3f);
+                                       alarme.start();
+
+                                   } else if (a.equals("personalZone")) {
+                                       //Alarme sur le telephone
+                                       alarme.setVolume(0.5f,0.5f);
+                                       alarme.start();
+
+                                   } else if (a.equals("socialZone")) {
+                                       //Afficher certaines informations
+                                       if(alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoEtu);
+
+                                   } else if (a.equals("publicZone")) {
+                                       //Afficher certaines informations
+                                       if (alarme.isPlaying()) {
+                                           alarme.pause();
+                                       }
+                                       Log.d("DIST", infoEtu);
+                                   }
+                               }
+
                             }else{
                                 Distance d= new Distance();
                                 d.setfaceHeight(faces.valueAt(i).getHeight());
@@ -128,7 +211,84 @@ public class MainActivity extends AppCompatActivity {
                                 dilmo.setProxemicDI(id, d.getDistance());
                                 dilmo.getProxemicDI(id);
                                 changerVolume(dilmo.getProxemicDI(id));
+                                String a = dilmo.getProxemicZone();
+
                                 Log.i("OneFace", "Zone : "+ id + "/"+ dilmo.getProxemicDI(id));
+
+                                if (MonitoringActivity.spinnerValue.equals("Partenaire")){
+                                    if (a.equals("intimiZone")) {
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+
+                                    } else if (a.equals("personalZone")) {
+                                        //Alarme sur le telephone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+
+                                    } else if (a.equals("socialZone")) {
+                                        //Afficher certaines informations
+                                        if(alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoPar);
+
+                                    } else if (a.equals("publicZone")) {
+                                        //Afficher certaines informations
+                                        if (alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoPar);
+                                    }
+
+                                }else if (MonitoringActivity.spinnerValue.equals("Professionnel")){
+                                    if (a.equals("intimiZone")) {
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+
+                                    } else if (a.equals("personalZone")) {
+                                        //Alarme sur le telephone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+
+                                    } else if (a.equals("socialZone")) {
+                                        //Afficher certaines informations
+                                        if(alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoPro);
+
+                                    } else if (a.equals("publicZone")) {
+                                        //Afficher certaines informations
+                                        if (alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoPro);
+                                    }
+                                }else if (MonitoringActivity.spinnerValue.equals("Etudiant")){
+                                    if (a.equals("intimiZone")) {
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+
+                                    } else if (a.equals("personalZone")) {
+                                        //Alarme sur le telephone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+
+                                    } else if (a.equals("socialZone")) {
+                                        //Afficher certaines informations
+                                        if(alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoEtu);
+
+                                    } else if (a.equals("publicZone")) {
+                                        //Afficher certaines informations
+                                        if (alarme.isPlaying()) {
+                                            alarme.pause();
+                                        }
+                                        Log.d("DIST", infoEtu);
+                                    }
+                                }
                             }
                         }
                     }
