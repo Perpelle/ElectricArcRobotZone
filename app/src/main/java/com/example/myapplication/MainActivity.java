@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.EditText;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -85,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-               public void changerVolume(String Zone){
+                public void changerVolume(String Zone){
 
 
-               }
+                }
 
                 @Override
                 public void receiveDetections(Detector.Detections<Face> detections) {
@@ -104,189 +105,199 @@ public class MainActivity extends AppCompatActivity {
                     alarme = MediaPlayer.create(getApplicationContext(), R.raw.alarme1);
                     alarme.setLooping(true);
                     alarme.seekTo(0);
-                    String infoPro = "Arc Electric professionnel";
-                    String infoPar = "Arc Electric partenaire";
-                    String infoEtu = "Arc Electric etudiant";
+                    String infoPro = "Infos Arc Electric professionnel à défnir";
+                    String infoPar = "Infos Arc Electric partenaire à définir";
+                    String infoEtu = "Infos Arc Electric etudiant à définir";
 
-                     if (faces.size() != 0) {
+                    if (faces.size() != 0) {
                         for (int i = 0; i < faces.size(); i++) {
-                           if (faces.size()>1) {
-                               Distance d= new Distance();
-                               d.setfaceHeight( faces.valueAt(i).getHeight());
+                            if (faces.size()>1) {
+                                Distance d= new Distance();
+                                d.setfaceHeight( faces.valueAt(i).getHeight());
 
-                               Distance d2= new Distance();
-                               d2.setfaceHeight( faces.valueAt(i+1).getHeight());
+                                Distance d2= new Distance();
+                                d2.setfaceHeight( faces.valueAt(i+1).getHeight());
 
-                               Distance dFinal = new Distance();
+                                Distance dFinal = new Distance();
 
-                               if (d2.getDistance() < d.getDistance()){
-                                   dFinal = d2;
-                               }else if (d.getDistance() <= d2.getDistance()){
-                                   dFinal = d;
-                               }
-                               dilmo.setProxemicDistance(dFinal.getDistance());
-                               String a = dilmo.getProxemicZone();
+                                if (d2.getDistance() < d.getDistance()){
+                                    dFinal = d2;
+                                }else if (d.getDistance() <= d2.getDistance()){
+                                    dFinal = d;
+                                }
+                                dilmo.setProxemicDistance(dFinal.getDistance());
+                                String a = dilmo.getProxemicZone();
 
-                              Log.i("ManyFaces", "Zone : "+ a + "/");
+                                Log.i("ManyFaces", "Zone : "+ a + "/");
 
-                               if (MonitoringActivity.spinnerValue.equals("Partenaire")){
-                                   if (a.equals("intimiZone")) {
-                                       alarme.setVolume(3f,3f);
-                                       alarme.start();
+                                if (MonitoringActivity.spinnerValue.equals("Partenaire")){
+                                    if (a.equals("intimiZone")) {
+                                        // alarm with a higher volume
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
-                                   } else if (a.equals("personalZone")) {
-                                       //Alarme sur le telephone
-                                       alarme.setVolume(0.5f,0.5f);
-                                       alarme.start();
+                                    } else if (a.equals("personalZone")) {
+                                        // Alarm on the phone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
 
-                                   } else if (a.equals("socialZone")) {
-                                       //Afficher certaines informations
-                                       if(alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoPar);
+                                    } else if (a.equals("socialZone")) {
+                                        // Display information
+                                        alarme.pause();
+                                        Log.d("DIST", infoPar);
+                                        logToDisplay("informations Partenaires \n" + infoPar);
 
-                                   } else if (a.equals("publicZone")) {
-                                       //Afficher certaines informations
-                                       if (alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoPar);
-                                   }
+                                    } else if (a.equals("publicZone")) {
+                                        // Display information
+                                        alarme.pause();
+                                        Log.d("DIST", infoPar);
+                                        logToDisplay("Vous vous rapprochez du robot à arc électrique");
+                                    }
 
-                               }else if (MonitoringActivity.spinnerValue.equals("Professionnel")){
-                                   if (a.equals("intimiZone")) {
-                                       alarme.setVolume(3f,3f);
-                                       alarme.start();
+                                }else if (MonitoringActivity.spinnerValue.equals("Professionnel")){
+                                    if (a.equals("intimiZone")) {
+                                        // alarm with a higher volume
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
-                                   } else if (a.equals("personalZone")) {
-                                       //Alarme sur le telephone
-                                       alarme.setVolume(0.5f,0.5f);
-                                       alarme.start();
+                                    } else if (a.equals("personalZone")) {
+                                        // Alarm on the phone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
 
-                                   } else if (a.equals("socialZone")) {
-                                       //Afficher certaines informations
-                                       if(alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoPro);
+                                    } else if (a.equals("socialZone")) {
+                                        // Display information
+                                        alarme.pause();
+                                        Log.d("DIST", infoPro);
+                                        logToDisplay("informations Pros \n" + infoPro);
 
-                                   } else if (a.equals("publicZone")) {
-                                       //Afficher certaines informations
-                                       if (alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoPro);
-                                   }
-                               }else if (MonitoringActivity.spinnerValue.equals("Etudiant")){
-                                   if (a.equals("intimiZone")) {
-                                       alarme.setVolume(3f,3f);
-                                       alarme.start();
+                                    } else if (a.equals("publicZone")) {
+                                        // Display information
+                                        alarme.pause();
+                                        Log.d("DIST", infoPro);
+                                        logToDisplay("Vous vous rapprochez du robot à arc électrique");
 
-                                   } else if (a.equals("personalZone")) {
-                                       //Alarme sur le telephone
-                                       alarme.setVolume(0.5f,0.5f);
-                                       alarme.start();
+                                    }
+                                }else if (MonitoringActivity.spinnerValue.equals("Etudiant")){
+                                    if (a.equals("intimiZone")) {
+                                        // alarm with a higher volume
+                                        alarme.setVolume(3f,3f);
+                                        alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
-                                   } else if (a.equals("socialZone")) {
-                                       //Afficher certaines informations
-                                       if(alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoEtu);
+                                    } else if (a.equals("personalZone")) {
+                                        //Alarm on the phone
+                                        alarme.setVolume(0.5f,0.5f);
+                                        alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
 
-                                   } else if (a.equals("publicZone")) {
-                                       //Afficher certaines informations
-                                       if (alarme.isPlaying()) {
-                                           alarme.pause();
-                                       }
-                                       Log.d("DIST", infoEtu);
-                                   }
-                               }
+                                    } else if (a.equals("socialZone")) {
+                                        // Display information
+                                        alarme.pause(); }
+                                    Log.d("DIST", infoEtu);
+                                    logToDisplay("informations Etudiants \n" + infoEtu);
 
-                            }else{
+                                } else if (a.equals("publicZone")) {
+                                    // Display onformation
+                                    alarme.pause();
+                                    Log.d("DIST", infoEtu);
+                                    logToDisplay("Vous vous rapprochez du robot à arc électrique");
+                                }
+                            }
+
+                            else{
                                 Distance d= new Distance();
                                 d.setfaceHeight(faces.valueAt(i).getHeight());
-                               dilmo.setProxemicDistance(d.getDistance());
+                                dilmo.setProxemicDistance(d.getDistance());
                                 String a = dilmo.getProxemicZone();
 
                                 Log.i("OneFace", "Zone : "+ a + "/");
 
                                 if (MonitoringActivity.spinnerValue.equals("Partenaire")){
                                     if (a.equals("intimiZone")) {
+                                        //alarm with a higher volume
                                         alarme.setVolume(3f,3f);
                                         alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
                                     } else if (a.equals("personalZone")) {
-                                        //Alarme sur le telephone
+                                        //Alarm on the phone
                                         alarme.setVolume(0.5f,0.5f);
                                         alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
 
                                     } else if (a.equals("socialZone")) {
-                                        //Afficher certaines informations
-                                        if(alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoPar);
+                                        logToDisplay("informations Partenaires \n" + infoPar);
 
                                     } else if (a.equals("publicZone")) {
-                                        //Afficher certaines informations
-                                        if (alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoPar);
+                                        logToDisplay("Vous vous rapprochez du robot à arc électrique");
                                     }
 
                                 }else if (MonitoringActivity.spinnerValue.equals("Professionnel")){
                                     if (a.equals("intimiZone")) {
+                                        // alarm with a higher volume
                                         alarme.setVolume(3f,3f);
                                         alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
                                     } else if (a.equals("personalZone")) {
-                                        //Alarme sur le telephone
+                                        //Alarm on the phone
                                         alarme.setVolume(0.5f,0.5f);
                                         alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
 
                                     } else if (a.equals("socialZone")) {
-                                        //Afficher certaines informations
-                                        if(alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoPro);
+                                        logToDisplay("informations Pros \n" + infoPro);
 
                                     } else if (a.equals("publicZone")) {
-                                        //Afficher certaines informations
-                                        if (alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoPro);
+                                        logToDisplay("Vous vous rapprochez du robot à arc électrique");
+
                                     }
                                 }else if (MonitoringActivity.spinnerValue.equals("Etudiant")){
                                     if (a.equals("intimiZone")) {
+                                        // alarm with a higher volume
                                         alarme.setVolume(3f,3f);
                                         alarme.start();
+                                        logToDisplay("Attention DANGER !");
 
                                     } else if (a.equals("personalZone")) {
-                                        //Alarme sur le telephone
+                                        //Alarm on the phone
                                         alarme.setVolume(0.5f,0.5f);
                                         alarme.start();
+                                        logToDisplay("Veuillez vous éloigner du robot à arc électrique");
+
 
                                     } else if (a.equals("socialZone")) {
-                                        //Afficher certaines informations
-                                        if(alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoEtu);
+                                        logToDisplay("information Etudiants \n" + infoEtu);
 
                                     } else if (a.equals("publicZone")) {
-                                        //Afficher certaines informations
-                                        if (alarme.isPlaying()) {
-                                            alarme.pause();
-                                        }
+                                        // Display information
+                                        alarme.pause();
                                         Log.d("DIST", infoEtu);
+                                        logToDisplay("Vous vous rapprochez du robot à arc électrique");
                                     }
                                 }
                             }
+
                         }
                     }
 
@@ -294,5 +305,13 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+    }
+    private void logToDisplay(final String line) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                EditText editText = (EditText)MainActivity.this.findViewById(R.id.rangingText);
+                editText.append(line+"\n");
+            }
+        });
     }
 }
